@@ -4,6 +4,16 @@ title: "About"
 
 Link to my report: [Download](https://github.com/jaysondelao/PM566Final/raw/main/docs/submitfin.pdf)
 
+data can be found: https://www.kaggle.com/datasets/alexteboul/heart-disease-health-indicators-dataset
+
+Which health indicators are most likely to contribute to heart disease?
+
+Goal: We are Interested in finding any association between health indicators and heart disease outcome and whether they increase or decrease the chances of developing heart disease. Which variables will be useful in a prediction model for heart disease.
+
+According to the CDC, heart disease is one of the leading causes of death in the United States. We will use a Kaggle dataset of health indicators and heart disease status of more than 200,000 individual across the US.
+
+Our health indicators consist of known risk factors for heart disease as well as potential risk factors. We will see if our analysis confirms the association of the risk factors in our data.
+
 ```{r echo = FALSE, include=FALSE}
 
 library(data.table)
@@ -20,7 +30,7 @@ library(kableExtra)
 
 library(dtplyr)
 library(dplyr)
-
+library(plotly)
 #library(readxl)
 ```
 
@@ -92,14 +102,42 @@ pred<- hd[,list(HDorAttack,Gender,agecat,BMI,Educ_lvl,Income_cat,HighBloodPressu
 
 ```
 
+Take a look at the data! The first 100 of 253,680 individual's health factors as well as heart disease status can be viewed through the interactive table below.
+
 ```{r echo=FALSE}
 library(DT)
 datatable(hd[1:100])
 
 ```
 
+Exploratory Data Analysis
+
+```{r eacho=FALSE, include=FALSE}
+
+barplot(table(pred$HDorAttack),main="Barplot of Heart Disease/Heart Attack",col=table(pred$HDorAttack))
+
+hist(pred$BMI,main="Histogram of BMI",col="purple")
+boxplot(pred$BMI, col="green",main="Boxplot of BMI")
+
+
+barplot(table(pred$agecat),main="Barplot of Age Categories",col=table(pred$agecat))
+barplot(table(pred$Gender),main="Barplot of Gender",col=table(pred$Gender))
+barplot(table(pred$Educ_lvl),main="Barplot of Education Level",col=table(pred$Educ_lvl))
+barplot(table(pred$Income_cat),main="Barplot of Income",col=table(pred$Income_cat))
+barplot(table(pred$HighBloodPressure),main="Barplot of Blood Pressure",col=table(pred$HighBloodPressure))
+barplot(table(pred$HighCholestrol),main="Barplot of Cholestrol",col=table(pred$HighCholestrol))
+barplot(table(pred$HadStroke),main="Barplot of Stroke Status",col=table(pred$HadStroke))
+barplot(table(pred$HasDiabetes),main="Barplot of Diabetes Status",col=table(pred$HasDiabetes))
+barplot(table(pred$Smokes),main="Barplot of Smoking Status",col=table(pred$Smokes))
+barplot(table(pred$Exercise),main="Barplot of Exercise Status",col=table(pred$Exercise))
+barplot(table(pred$HeavyAlcoholuse),main="Barplot of Heavy Alcohol Use Status",col=table(pred$HeavyAlcoholuse))
+barplot(table(pred$EatsVeggies),main="Barplot of individuals who eat Vegetables",col=table(pred$EatsVeggies))
+barplot(table(pred$EatsFruits),main="Barplot of individuals who eat Fruits",col=table(pred$EatsFruits))
+
+```
+
 ```{r echo=FALSE}
-library(plotly)
+
 p <-ggplot(pred, aes(x = HeavyAlcoholuse, colour=HDorAttack,fill = HDorAttack)) +
   geom_bar(position = "dodge",stat="count") +
   labs(x = "High Alcohol Use Status", y = "Count",title="Barplot of High Alcohol use Status by Heart Disease status") 

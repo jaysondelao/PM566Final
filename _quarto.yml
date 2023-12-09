@@ -3,10 +3,10 @@ project:
   output-dir: docs
 
 website:
-  title: "Proj"
+  title: "566 Final Project"
   navbar:
     left:
-      - href: about.qmd
+      - href: index.qmd
         text: Home
       - submitfin.qmd
 

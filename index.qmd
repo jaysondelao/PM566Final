@@ -2,7 +2,17 @@
 title: "PM566 Analysis"
 ---
 
-Link to report: [Download](https://github.com/jaysondelao/PM566Final/tree/main/docs/submitfin.pdf)
+Link to my report: [Download](https://github.com/jaysondelao/PM566Final/raw/main/docs/submitfin.pdf)
+
+data can be found: https://www.kaggle.com/datasets/alexteboul/heart-disease-health-indicators-dataset
+
+Which health indicators are most likely to contribute to heart disease?
+
+Goal: We are Interested in finding any association between health indicators and heart disease outcome and whether they increase or decrease the chances of developing heart disease. Which variables will be useful in a prediction model for heart disease.
+
+According to the CDC, heart disease is one of the leading causes of death in the United States. We will use a Kaggle dataset of health indicators and heart disease status of more than 200,000 individual across the US.
+
+Our health indicators consist of known risk factors for heart disease as well as potential risk factors. We will see if our analysis confirms the association of the risk factors in our data.
 
 ```{r echo = FALSE, include=FALSE}
 
@@ -20,8 +30,7 @@ library(kableExtra)
 
 library(dtplyr)
 library(dplyr)
-library(cowplot)
-
+library(plotly)
 #library(readxl)
 ```
 
@@ -90,7 +99,6 @@ hd$Income_cat <- case_when(hd$Income == 1~"Less than $10,000",
 pred<- hd[,list(HDorAttack,Gender,agecat,BMI,Educ_lvl,Income_cat,HighBloodPressure,HighCholestrol,HadStroke,HasDiabetes,Smokes,Exercise,HeavyAlcoholuse,EatsVeggies,EatsFruits)]
 #pred
 
-
 ```
 
 Take a look at the data! The first 100 of 253,680 individual's health factors as well as heart disease status can be viewed through the interactive table below.
@@ -98,26 +106,16 @@ Take a look at the data! The first 100 of 253,680 individual's health factors as
 ```{r echo=FALSE}
 library(DT)
 datatable(hd[1:100])
-
-
-
 ```
 
-```{r}
-library(plotly)
-p <-ggplot(pred, aes(x = HeavyAlcoholuse, colour=HDorAttack,fill = HDorAttack)) +
-  geom_bar(position = "dodge",stat="count") +
-  labs(x = "High Alcohol Use Status", y = "Count",title="Barplot of High Alcohol use Status by Heart Disease status") 
+Exploratory Data Analysis
 
+Univariate analysis of the health indicator (below) show us the distribution of individuals with each health indicator.
 
-ggplotly(p)
-```
+Notice we can also see the amount of people who have heart disease or a heart attack and those who do not. There are many more people who do not have heart disease than those who do, so we want to keep that in mind when we interpret the each plot.
 
-```{r}
+```{r echo=FALSE}
 
-```
-
-```{r}
 barplot(table(pred$HDorAttack),main="Barplot of Heart Disease/Heart Attack",col=table(pred$HDorAttack))
 
 hist(pred$BMI,main="Histogram of BMI",col="purple")
@@ -139,3 +137,75 @@ barplot(table(pred$EatsVeggies),main="Barplot of individuals who eat Vegetables"
 barplot(table(pred$EatsFruits),main="Barplot of individuals who eat Fruits",col=table(pred$EatsFruits))
 
 ```
+
+Here we will focus on just a few of the variables: BMI, Age, and Alcohol use. If you are interested in the analysis, download the report at the top of the page to see how these health indicators compared to others.
+
+Here we can see that on average Individuals who have heart disease are also more likely to have a higher BMI than those who do not. This is an indication that BMI might be a helpful predictor for heart disease.
+
+```{r echo=FALSE}
+
+Hi<- ggplot(pred,aes(x=BMI,fill=HDorAttack))+
+  geom_histogram()+
+  facet_wrap(~HDorAttack,nrow=2) +
+  labs(x="BMI",title="Histogram of BMI by Heart Disease Status")
+
+ggplotly(Hi)
+
+stats <- pred %>%
+  group_by(HDorAttack) %>%
+  summarize(
+    n=n(),
+    BMI_mean=mean(BMI)
+   
+  )
+stats %>%
+  knitr::kable(caption="Table 1:Summary Statistics") %>%
+  kableExtra::kable_styling(bootstrap_options="striped",full_width=FALSE)
+
+```
+
+Age was also an interesting variable to study because you can see (as we would expect) that as people age the proportion of individual who do not have heart disease tends to increase and the proportion of individuals who have heart disease increases.
+
+```{r echo=FALSE}
+ Cage<- ggplot(pred, aes(y = agecat, colour=HDorAttack,fill = HDorAttack)) +
+  geom_bar() +
+  labs(y = "Age Category", x = "Count",title="Barplot of Age Category by Heart Disease status") 
+ 
+ ggplotly(Cage)
+ 
+ proportions_agecat <-  prop.table(table(pred$HDorAttack, pred$agecat), margin = 2)
+
+rownames(proportions_agecat) <- c("Heart Disease", "No Heart Disease")
+
+
+proportions_agecat %>%
+  knitr::kable(caption="Proportion of Heart Disease by each Age Category") %>%
+  kableExtra::kable_styling(bootstrap_options="striped",full_width=FALSE)
+
+ 
+```
+
+Lastly, we will discuss our findings on alcohol use. As with many of these health indicators, we would expect that an unhealthy lifestyle will increase you chances of developing heart disease. It would be expected that heavy alcohol use would also lead to increased chance on heart disease, but this is not what our analysis concluded.
+
+```{r echo=FALSE}
+
+p <-ggplot(pred, aes(x = HeavyAlcoholuse, colour=HDorAttack,fill = HDorAttack)) +
+  geom_bar(position = "dodge",stat="count") +
+  labs(x = "High Alcohol Use Status", y = "Count",title="Barplot of High Alcohol use Status by Heart Disease status") 
+
+
+ggplotly(p)
+
+
+proportions_alc <-  prop.table(table(pred$HDorAttack, pred$HeavyAlcoholuse), margin = 2)
+
+rownames(proportions_alc) <- c("Heart Disease", "No Heart Disease")
+colnames(proportions_alc)<- c("Alcohol Use","No Alcohol Use")
+proportions_alc %>%
+  knitr::kable(caption="Proportion of Heart Disease by Heavy Alocohol Use") %>%
+  kableExtra::kable_styling(bootstrap_options="striped",full_width=FALSE)
+```
+
+We can see that the proportion of individuals who had heart disease increases and used alcohol heavily was lower than the proportion of those who had heart disease, but did not use alcohol. This finding in contrary to what we would expect and suggests that heavy alcohol use may contribute to a decrease in heart disease. Although, this is an interesting finding, the sample size for individuals who use alcohol heavily is quite small compared to the sample size for those who do not use alcohol heavily, so we should keep this in consideration when interpreting our results.
+
+Conclusion: An unhealthy lifestyle contributes greatly to the odds of developing heart disease. BMI and age seemed like the best indicators of developing heart disease from the list of health indicators we studied. Although, heavily alcohol use seemed to decrease the odds of developing heart disease, we should be aware of the possibility of confounding due to the small sample size and continue to study the effects of heavy alcohol use on heart disease.
