@@ -1,12 +1,8 @@
 ---
 title: "PM566 Analysis"
-about:
-  template: solana
-  links:
-    - icon: file-text
-      text: Report
-      href: submitfin.pdf
 ---
+
+Link to report: [Download](https://github.com/jaysondelao/PM566Final/tree/main/docs/submitfin.pdf)
 
 ```{r echo = FALSE, include=FALSE}
 
@@ -122,19 +118,24 @@ ggplotly(p)
 ```
 
 ```{r}
-M<- ggplot(pred, aes(x = HasDiabetes, colour=HDorAttack,fill = HDorAttack)) +
-  geom_bar(position = "dodge",stat="count") +
-  labs(x = "Diabetes Status", y = "Count",title="Barplot of Diabetes Status by Heart Disease status")
+barplot(table(pred$HDorAttack),main="Barplot of Heart Disease/Heart Attack",col=table(pred$HDorAttack))
 
-N<- ggplot(pred, aes(x = EatsVeggies, colour=HDorAttack,fill = HDorAttack)) +
-  geom_bar(position = "dodge",stat="count") +
-  labs(x = "Eats Vegetables Status", y = "Count",title="Barplot of Eats Vegetables Status by Heart Disease status") 
+hist(pred$BMI,main="Histogram of BMI",col="purple")
+boxplot(pred$BMI, col="green",main="Boxplot of BMI")
 
-Q <- ggplot(pred, aes(x = EatsVeggies, colour=HDorAttack,fill = HDorAttack)) +
-  geom_bar(position = "dodge",stat="count") +
-  labs(x = "Eats Vegetables Status", y = "Count",title="Barplot of Eats Vegetables Status by Heart Disease status") 
-Multi<- plot_grid(M, N,Q,  labels = "AUTO")
 
-ggplotly(Multi)
+barplot(table(pred$agecat),main="Barplot of Age Categories",col=table(pred$agecat))
+barplot(table(pred$Gender),main="Barplot of Gender",col=table(pred$Gender))
+barplot(table(pred$Educ_lvl),main="Barplot of Education Level",col=table(pred$Educ_lvl))
+barplot(table(pred$Income_cat),main="Barplot of Income",col=table(pred$Income_cat))
+barplot(table(pred$HighBloodPressure),main="Barplot of Blood Pressure",col=table(pred$HighBloodPressure))
+barplot(table(pred$HighCholestrol),main="Barplot of Cholestrol",col=table(pred$HighCholestrol))
+barplot(table(pred$HadStroke),main="Barplot of Stroke Status",col=table(pred$HadStroke))
+barplot(table(pred$HasDiabetes),main="Barplot of Diabetes Status",col=table(pred$HasDiabetes))
+barplot(table(pred$Smokes),main="Barplot of Smoking Status",col=table(pred$Smokes))
+barplot(table(pred$Exercise),main="Barplot of Exercise Status",col=table(pred$Exercise))
+barplot(table(pred$HeavyAlcoholuse),main="Barplot of Heavy Alcohol Use Status",col=table(pred$HeavyAlcoholuse))
+barplot(table(pred$EatsVeggies),main="Barplot of individuals who eat Vegetables",col=table(pred$EatsVeggies))
+barplot(table(pred$EatsFruits),main="Barplot of individuals who eat Fruits",col=table(pred$EatsFruits))
 
 ```

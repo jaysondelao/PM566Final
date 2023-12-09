@@ -21,6 +21,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -92,6 +126,10 @@ ul.task-list li input[type="checkbox"] {
     <a class="nav-link" href="./about.html" rel="" target="">
  <span class="menu-text">About</span></a>
   </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./submitfin.pdf" rel="" target="">
+ <span class="menu-text">PM566 Final- Heart disease analysis</span></a>
+  </li>  
 </ul>
             <div class="quarto-navbar-tools ms-auto">
 </div>
@@ -132,104 +170,27 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
-<p>Test jay</p>
 <p>Which health indicator have a greater association with heart disease?</p>
 <p>INTRODUCTION: The Centers for Disease Control and Prevention (CDC) list heart disease as the leading cause of death in the United States. The goal of this analysis is to find out which health indicators are associated heart disease and will potentially be useful in predicting whether or not someone develop heart disease. Our dataset is a subset of data collected from the CDC’s 2015-Behavioral Risk Factor Surveillance System (BRFSS), a telephone survey used to collect data on the health and condition of the residents of the United States of America. The data contains the binary outcome of heart disease or heart attack status along with different health indicators that could be useful in predicting heart disease, such as BMI, smoking status, and age. Most of the health indicator variables have binary responses to a health status or condition, with BMI being the quantitative variable in the data.</p>
 <p>METHODS: The dataset was obtained from Kaggle and it is a subset of data from the 2015 CDC’s telephone survey across the 50 states. The dataset used only includes health indicators that might be useful for predicting heart disease status across the nation. The dataset was downloaded and read in as a CSV file and the dimensions, header, and footer were all checked to ensure the data was properly displaying. The str function was used to look at the structure of the data and see that all of variables are numerical values. The summary function allows us to take a closer look at the variables and see the summary statistics of each variable and any missing values that might occur in the data. No missing values are observed and most variable are binary-categorical variables. All numerical-categorical variables are transformed using ifelse statements to their corresponding category using the Kaggle legend to make the responses more intuitive. The clean dataset was then restricted to variables that would seem to have an association including the new character variables and BMI(duplicates were removed). Exploratory data analysis was run on variables of interest and it is noted that BMI has a max of 98. A BMI of 98 seems to be a suspicious value because most BMI charts only list 30 and above as the highest BMI category. Using medical journals, I was able to verify that BMI values can exceed 100, but the majority of people do not fall into that category. Additionally, I calculated the proportion of individuals that had a BMI greater than 40 in our dataset was 4% and those greater than 50 was 0.8%, so it seems to be reasonable that these BMI values are not errors and will be included in our analysis. Exploratory graphs were created for variables of interest using ggplot and summary tables were created using summarize and kable function.</p>
-<p>Dimensions of dataset: 253680 x 22 Header/Footer data is displaying correctly All variable types are numerical Summary tells us dataset is well-maintained; no missing values BMI max is 98,which is questionable</p>
-<p>Take a look at non-binary variable and see that they are categorical, but need to use Kaggle legend to transform into corresponding catagories</p>
-<p>Using ifelse statements to transform variables into new character variables instead of numerical values for clearer responses(values obtained for kaggle legend for data) Clean and resitrict data into new dataset “pred’</p>
+<p>Dimensions of dataset: 253680 x 22 Header/Footer data is displaying correctly All variable types are numerical. Summary function tells us dataset is well-maintained; no missing values, but BMI max is 98,which is questionable.</p>
 <p>Exploratory Analysis</p>
 <p>BMI values greater than 40 seem suspicious, but have been externally validated to exist only 4% of our dataset has BMI greater than 40 and only 0.8% are greater than 50.</p>
-<div class="cell-output-display">
-<table class="table table-striped" data-quarto-postprocess="true">
-<caption>BMI proportions</caption>
-<thead>
-<tr class="header">
-<th style="text-align: right;" data-quarto-table-cell-role="th">proportion_of_BMI_greater40</th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">proportion_of_BMI_greater50</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: right;">0.0452499</td>
-<td style="text-align: right;">0.0085738</td>
-</tr>
-</tbody>
-</table>
-
-
-</div>
 <p>Taking a look at the distribution of our variables.</p>
 <p>These plots shows the distributions of the variables showing the range of the different responses in each variable.</p>
-<div class="cell">
-<div class="cell-output-display">
-<p><img src="submitfin_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
-</div>
-<div class="cell-output-display">
-<p><img src="submitfin_files/figure-html/unnamed-chunk-6-2.png" class="img-fluid" width="672"></p>
-</div>
-<div class="cell-output-display">
-<p><img src="submitfin_files/figure-html/unnamed-chunk-6-3.png" class="img-fluid" width="672"></p>
-</div>
-<div class="cell-output-display">
-<p><img src="submitfin_files/figure-html/unnamed-chunk-6-4.png" class="img-fluid" width="672"></p>
-</div>
-<div class="cell-output-display">
-<p><img src="submitfin_files/figure-html/unnamed-chunk-6-5.png" class="img-fluid" width="672"></p>
-</div>
-<div class="cell-output-display">
-<p><img src="submitfin_files/figure-html/unnamed-chunk-6-6.png" class="img-fluid" width="672"></p>
-</div>
-<div class="cell-output-display">
-<p><img src="submitfin_files/figure-html/unnamed-chunk-6-7.png" class="img-fluid" width="672"></p>
-</div>
-<div class="cell-output-display">
-<p><img src="submitfin_files/figure-html/unnamed-chunk-6-8.png" class="img-fluid" width="672"></p>
-</div>
-<div class="cell-output-display">
-<p><img src="submitfin_files/figure-html/unnamed-chunk-6-9.png" class="img-fluid" width="672"></p>
-</div>
-<div class="cell-output-display">
-<p><img src="submitfin_files/figure-html/unnamed-chunk-6-10.png" class="img-fluid" width="672"></p>
-</div>
-<div class="cell-output-display">
-<p><img src="submitfin_files/figure-html/unnamed-chunk-6-11.png" class="img-fluid" width="672"></p>
-</div>
-<div class="cell-output-display">
-<p><img src="submitfin_files/figure-html/unnamed-chunk-6-12.png" class="img-fluid" width="672"></p>
-</div>
-<div class="cell-output-display">
-<p><img src="submitfin_files/figure-html/unnamed-chunk-6-13.png" class="img-fluid" width="672"></p>
-</div>
-<div class="cell-output-display">
-<p><img src="submitfin_files/figure-html/unnamed-chunk-6-14.png" class="img-fluid" width="672"></p>
-</div>
-<div class="cell-output-display">
-<p><img src="submitfin_files/figure-html/unnamed-chunk-6-15.png" class="img-fluid" width="672"></p>
-</div>
-<div class="cell-output-display">
-<p><img src="submitfin_files/figure-html/unnamed-chunk-6-16.png" class="img-fluid" width="672"></p>
-</div>
-</div>
 <p>Data Visualization</p>
 <p>The histogram, violin plot, and boxplot show how BMI is distributed between Heart disease status. The mean BMI for individuals with heart disease is higher than those without, showing there is a possible association. The scatterplot shows us that the sample size for heart disease status group is not the same so results maybe be skewed. The mean and sample size for each group is show in the table below, which confirms my conclusion.</p>
 <div class="cell">
-<div class="cell-output cell-output-stderr">
-<pre><code>`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
-</div>
-<div class="cell-output-display">
-<p><img src="submitfin_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
-</div>
-<div class="cell-output-display">
-<p><img src="submitfin_files/figure-html/unnamed-chunk-7-2.png" class="img-fluid" width="672"></p>
-</div>
-<div class="cell-output-display">
-<p><img src="submitfin_files/figure-html/unnamed-chunk-7-3.png" class="img-fluid" width="672"></p>
-</div>
-<div class="cell-output-display">
-<p><img src="submitfin_files/figure-html/unnamed-chunk-7-4.png" class="img-fluid" width="672"></p>
-</div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="do">################</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>BMIC2<span class="ot">&lt;-</span> <span class="fu">ggplot</span>(pred, <span class="fu">aes</span>(<span class="at">x =</span> HDorAttack, <span class="at">y =</span> BMI,<span class="at">fill=</span>HDorAttack)) <span class="sc">+</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_violin</span>()<span class="sc">+</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">"Heart Disease Status"</span>,<span class="at">y=</span><span class="st">"BMI"</span>,<span class="at">title=</span><span class="st">"Violin map of BMI by Heart Disease Status"</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>BMIC3<span class="ot">&lt;-</span> <span class="fu">ggplot</span>(pred, <span class="fu">aes</span>(<span class="at">x=</span>HDorAttack,<span class="at">y=</span>BMI,<span class="at">fill=</span>HDorAttack))<span class="sc">+</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()<span class="sc">+</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">"Heart Disease Status"</span>,<span class="at">y=</span><span class="st">"BMI"</span>,<span class="at">title=</span><span class="st">"Boxplot of BMI by Heart Disease Status"</span>) <span class="sc">+</span> </span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>carb, <span class="at">ncol =</span> <span class="dv">3</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
 <div class="cell-output-display">
@@ -259,12 +220,7 @@ ul.task-list li input[type="checkbox"] {
 
 </div>
 </div>
-<p>The barplot show how Age is distributed between Heart disease status. The heart disease increases with age showing that there might be an association between age and heart disease. The table below also shows that as age increases the proprtion in each age categories who have heart disease increases.</p>
-<div class="cell">
-<div class="cell-output-display">
-<p><img src="submitfin_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
+<p>The barplot show how Age is distributed between Heart disease status. The heart disease increases with age showing that there might be an association between age and heart disease. The table below also shows that as age increases the proportion in each age categories who have heart disease increases.</p>
 <div class="cell">
 <div class="cell-output-display">
 <table class="table table-striped table-sm small" data-quarto-postprocess="true">
@@ -289,7 +245,7 @@ ul.task-list li input[type="checkbox"] {
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">No</td>
+<td style="text-align: left;">Heart Disease</td>
 <td style="text-align: right;">0.9949123</td>
 <td style="text-align: right;">0.9928929</td>
 <td style="text-align: right;">0.9886721</td>
@@ -305,7 +261,7 @@ ul.task-list li input[type="checkbox"] {
 <td style="text-align: right;">0.7604677</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Yes</td>
+<td style="text-align: left;">No Heart Disease</td>
 <td style="text-align: right;">0.0050877</td>
 <td style="text-align: right;">0.0071071</td>
 <td style="text-align: right;">0.0113279</td>
@@ -329,11 +285,6 @@ ul.task-list li input[type="checkbox"] {
 <p>The barplot show how gender is distributed between Heart disease status. The heart disease rates are higher for male than female showing that there might be an association between gender and heart disease. The table below also shows that as males are at an increased risk for heart disease.</p>
 <div class="cell">
 <div class="cell-output-display">
-<p><img src="submitfin_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-<div class="cell">
-<div class="cell-output-display">
 <table class="table table-striped table-sm small" data-quarto-postprocess="true">
 <caption>Proportion of Heart Disease by Gender</caption>
 <thead>
@@ -345,12 +296,12 @@ ul.task-list li input[type="checkbox"] {
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">No</td>
+<td style="text-align: left;">Heart Disease</td>
 <td style="text-align: right;">0.9281206</td>
 <td style="text-align: right;">0.8774641</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Yes</td>
+<td style="text-align: left;">No Heart Disease</td>
 <td style="text-align: right;">0.0718794</td>
 <td style="text-align: right;">0.1225359</td>
 </tr>
@@ -361,11 +312,6 @@ ul.task-list li input[type="checkbox"] {
 </div>
 </div>
 <p>The barplot show how Education level is distributed between Heart disease status. The heart disease status seems to be less prevalent in individuals with college degrees, but the effect does not seem to be as impactful in the No school/Elementary school categories showing that there might be an association between increased education level and heart disease. The table below also shows that for the most part as education increases the proportion heart disease decreases.</p>
-<div class="cell">
-<div class="cell-output-display">
-<p><img src="submitfin_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
 <div class="cell">
 <div class="cell-output-display">
 <table class="table table-striped table-sm small" data-quarto-postprocess="true">
@@ -383,7 +329,7 @@ ul.task-list li input[type="checkbox"] {
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">No</td>
+<td style="text-align: left;">Heart Disease</td>
 <td style="text-align: right;">0.9340042</td>
 <td style="text-align: right;">0.8075686</td>
 <td style="text-align: right;">0.881004</td>
@@ -392,7 +338,7 @@ ul.task-list li input[type="checkbox"] {
 <td style="text-align: right;">0.8292889</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Yes</td>
+<td style="text-align: left;">No Heart Disease</td>
 <td style="text-align: right;">0.0659958</td>
 <td style="text-align: right;">0.1924314</td>
 <td style="text-align: right;">0.118996</td>
@@ -408,11 +354,6 @@ ul.task-list li input[type="checkbox"] {
 </div>
 <p>The barplot show how income level is distributed between Heart disease status. The heart disease status seems to be less prevalent in individuals with higher incomes, but the effect does not seem to be as impactful in the lower income categories showing that there might be an association between increased income level and heart disease. The table below also shows that for the most part as income increases the proportion heart disease decreases.</p>
 <p>table(pred$Income_cats)</p>
-<div class="cell">
-<div class="cell-output-display">
-<p><img src="submitfin_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
 <div class="cell">
 <div class="cell-output-display">
 <table class="table table-striped table-sm small" data-quarto-postprocess="true">
@@ -432,7 +373,7 @@ ul.task-list li input[type="checkbox"] {
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">No</td>
+<td style="text-align: left;">Heart Disease</td>
 <td style="text-align: right;">0.9492726</td>
 <td style="text-align: right;">0.8417083</td>
 <td style="text-align: right;">0.8135449</td>
@@ -443,7 +384,7 @@ ul.task-list li input[type="checkbox"] {
 <td style="text-align: right;">0.9212383</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Yes</td>
+<td style="text-align: left;">No Heart Disease</td>
 <td style="text-align: right;">0.0507274</td>
 <td style="text-align: right;">0.1582917</td>
 <td style="text-align: right;">0.1864551</td>
@@ -462,28 +403,23 @@ ul.task-list li input[type="checkbox"] {
 <p>The barplot show how blood pressure level is distributed between Heart disease status. The heart disease seems to be less prevalent in individuals without high blood pressure showing that there might be an association between increased high blood pressure level and heart disease. The table below also shows that for the proportion of individuals with heart disease also had high blood pressure.</p>
 <div class="cell">
 <div class="cell-output-display">
-<p><img src="submitfin_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-<div class="cell">
-<div class="cell-output-display">
 <table class="table table-striped table-sm small" data-quarto-postprocess="true">
 <caption>Proportion of Heart Disease by Gender</caption>
 <thead>
 <tr class="header">
 <th style="text-align: left;" data-quarto-table-cell-role="th"></th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">No</th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">Yes</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">High BP</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">No High BP</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">No</td>
+<td style="text-align: left;">Heart Disease</td>
 <td style="text-align: right;">0.9588198</td>
 <td style="text-align: right;">0.8352645</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Yes</td>
+<td style="text-align: left;">No Heart Disease</td>
 <td style="text-align: right;">0.0411802</td>
 <td style="text-align: right;">0.1647355</td>
 </tr>
@@ -496,28 +432,23 @@ ul.task-list li input[type="checkbox"] {
 <p>The barplot show how cholesterol level is distributed between Heart disease status. The heart disease seems to be less prevalent in individuals without high cholesterol showing that there might be an association between increased high cholesterol levels and heart disease. The table below also shows that for the proportion of individuals with heart disease also had high blood cholestrol.</p>
 <div class="cell">
 <div class="cell-output-display">
-<p><img src="submitfin_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-<div class="cell">
-<div class="cell-output-display">
 <table class="table table-striped table-sm small" data-quarto-postprocess="true">
 <caption>Proportion of Heart Disease by High Cholestrol</caption>
 <thead>
 <tr class="header">
 <th style="text-align: left;" data-quarto-table-cell-role="th"></th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">No</th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">Yes</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">High Cholestrol</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">No High Cholestrol</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">No</td>
+<td style="text-align: left;">Heart Disease</td>
 <td style="text-align: right;">0.9511257</td>
 <td style="text-align: right;">0.8442899</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Yes</td>
+<td style="text-align: left;">No Heart Disease</td>
 <td style="text-align: right;">0.0488743</td>
 <td style="text-align: right;">0.1557101</td>
 </tr>
@@ -530,28 +461,23 @@ ul.task-list li input[type="checkbox"] {
 <p>The barplot show how stroke status is distributed between Heart disease status. The heart disease seems to be less prevalent in individuals without a stroke showing that there might be an association between strokes and heart disease. The table below also shows that for the proportion of individuals with heart disease also had a stroke.</p>
 <div class="cell">
 <div class="cell-output-display">
-<p><img src="submitfin_files/figure-html/unnamed-chunk-21-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-<div class="cell">
-<div class="cell-output-display">
 <table class="table table-striped table-sm small" data-quarto-postprocess="true">
 <caption>Proportion of Heart Disease by Stroke Status</caption>
 <thead>
 <tr class="header">
 <th style="text-align: left;" data-quarto-table-cell-role="th"></th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">No</th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">Yes</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">stroke</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">No stroke</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">No</td>
+<td style="text-align: left;">Heart Disease</td>
 <td style="text-align: right;">0.9180075</td>
 <td style="text-align: right;">0.6174699</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Yes</td>
+<td style="text-align: left;">No Heart Disease</td>
 <td style="text-align: right;">0.0819925</td>
 <td style="text-align: right;">0.3825301</td>
 </tr>
@@ -564,28 +490,23 @@ ul.task-list li input[type="checkbox"] {
 <p>The barplot show how smoking status is distributed between Heart disease status. The heart disease seems to be less prevalent in individuals who do not smoke showing that there might be an association between smoking and heart disease. The table below also shows that for the proportion of individuals with heart disease also were smokers.</p>
 <div class="cell">
 <div class="cell-output-display">
-<p><img src="submitfin_files/figure-html/unnamed-chunk-23-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-<div class="cell">
-<div class="cell-output-display">
 <table class="table table-striped table-sm small" data-quarto-postprocess="true">
 <caption>Proportion of Heart Disease by Smoking status</caption>
 <thead>
 <tr class="header">
 <th style="text-align: left;" data-quarto-table-cell-role="th"></th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">No</th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">Yes</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Smoke</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">No smoke</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">No</td>
+<td style="text-align: left;">Heart Disease</td>
 <td style="text-align: right;">0.935635</td>
 <td style="text-align: right;">0.8683454</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Yes</td>
+<td style="text-align: left;">No Heart Disease</td>
 <td style="text-align: right;">0.064365</td>
 <td style="text-align: right;">0.1316546</td>
 </tr>
@@ -598,28 +519,23 @@ ul.task-list li input[type="checkbox"] {
 <p>The barplot show how exercise status is distributed between Heart disease status. The heart disease seems to be less prevalent in individuals who exercise showing that there might be an association between exercising and heart disease. The table below also shows that for the proportion of individuals with heart disease also were not exercising.</p>
 <div class="cell">
 <div class="cell-output-display">
-<p><img src="submitfin_files/figure-html/unnamed-chunk-25-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-<div class="cell">
-<div class="cell-output-display">
 <table class="table table-striped table-sm small" data-quarto-postprocess="true">
 <caption>Proportion of Heart Disease by Exercise status</caption>
 <thead>
 <tr class="header">
 <th style="text-align: left;" data-quarto-table-cell-role="th"></th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">No</th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">Yes</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">excercise</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">No exercise</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">No</td>
+<td style="text-align: left;">Heart Disease</td>
 <td style="text-align: right;">0.8608646</td>
 <td style="text-align: right;">0.9202793</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Yes</td>
+<td style="text-align: left;">No Heart Disease</td>
 <td style="text-align: right;">0.1391354</td>
 <td style="text-align: right;">0.0797207</td>
 </tr>
@@ -632,28 +548,23 @@ ul.task-list li input[type="checkbox"] {
 <p>The barplot show how heavy alcohol use status is distributed between Heart disease status. The heart disease seems to be more prevalent in individuals who do not drink showing that there might be an association between heavy alcohol use and heart disease. The table below also shows that for the proportion of individuals with heart disease also were also not drinkers, but this could be caused by low sample size in heavy drinker category.</p>
 <div class="cell">
 <div class="cell-output-display">
-<p><img src="submitfin_files/figure-html/unnamed-chunk-27-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-<div class="cell">
-<div class="cell-output-display">
 <table class="table table-striped table-sm small" data-quarto-postprocess="true">
 <caption>Proportion of Heart Disease by Heavy Alocohol Use</caption>
 <thead>
 <tr class="header">
 <th style="text-align: left;" data-quarto-table-cell-role="th"></th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">No</th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">Yes</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Alcohol Use</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">No Alcohol</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">No</td>
+<td style="text-align: left;">Heart Disease</td>
 <td style="text-align: right;">0.9037482</td>
 <td style="text-align: right;">0.9405163</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Yes</td>
+<td style="text-align: left;">No Heart Disease</td>
 <td style="text-align: right;">0.0962518</td>
 <td style="text-align: right;">0.0594837</td>
 </tr>
@@ -666,28 +577,23 @@ ul.task-list li input[type="checkbox"] {
 <p>The barplot show how fruit eating status is distributed between Heart disease status. The heart disease seems to be less prevalent in individuals who eat fruit showing that there might be an association between eating fruit and heart disease. The table below also shows that for the proportion of individuals with heart disease also were not eating fruit.</p>
 <div class="cell">
 <div class="cell-output-display">
-<p><img src="submitfin_files/figure-html/unnamed-chunk-29-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-<div class="cell">
-<div class="cell-output-display">
 <table class="table table-striped table-sm small" data-quarto-postprocess="true">
 <caption>Proportion of Heart Disease by if they eat fruit</caption>
 <thead>
 <tr class="header">
 <th style="text-align: left;" data-quarto-table-cell-role="th"></th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">No</th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">Yes</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Eats fruits</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">No fruits</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">No</td>
+<td style="text-align: left;">Heart Disease</td>
 <td style="text-align: right;">0.8982022</td>
 <td style="text-align: right;">0.910204</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Yes</td>
+<td style="text-align: left;">No Heart Disease</td>
 <td style="text-align: right;">0.1017978</td>
 <td style="text-align: right;">0.089796</td>
 </tr>
@@ -700,28 +606,23 @@ ul.task-list li input[type="checkbox"] {
 <p>The barplot show how vegetable eating status is distributed between Heart disease status. The heart disease seems to be less prevalent in individuals who eat vegetables showing that there might be an association between eating vegtebales and heart disease. The table below also shows that for the proportion of individuals with heart disease also were not eating vegetables.</p>
 <div class="cell">
 <div class="cell-output-display">
-<p><img src="submitfin_files/figure-html/unnamed-chunk-31-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-<div class="cell">
-<div class="cell-output-display">
 <table class="table table-striped table-sm small" data-quarto-postprocess="true">
 <caption>Proportion of Heart Disease by if they eat vegetables</caption>
 <thead>
 <tr class="header">
 <th style="text-align: left;" data-quarto-table-cell-role="th"></th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">No</th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">Yes</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Eats Vegetables</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">No Vegetables</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">No</td>
+<td style="text-align: left;">Heart Disease</td>
 <td style="text-align: right;">0.8820837</td>
 <td style="text-align: right;">0.9113296</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Yes</td>
+<td style="text-align: left;">No Heart Disease</td>
 <td style="text-align: right;">0.1179163</td>
 <td style="text-align: right;">0.0886704</td>
 </tr>
@@ -732,11 +633,6 @@ ul.task-list li input[type="checkbox"] {
 </div>
 </div>
 <p>The barplot show how diabetes status is distributed between Heart disease status. The heart disease seems to be less prevalent in individuals who do not have diabetes or are bordline showing that there might be an association between diabetes and heart disease. The table below also shows that for the proportion of individuals with heart disease also were diabetic.</p>
-<div class="cell">
-<div class="cell-output-display">
-<p><img src="submitfin_files/figure-html/unnamed-chunk-33-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
 <div class="cell">
 <div class="cell-output-display">
 <table class="table table-striped table-sm small" data-quarto-postprocess="true">
@@ -751,13 +647,13 @@ ul.task-list li input[type="checkbox"] {
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">No</td>
+<td style="text-align: left;">Heart Disease</td>
 <td style="text-align: right;">0.7771176</td>
 <td style="text-align: right;">0.9281667</td>
 <td style="text-align: right;">0.8566184</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Yes</td>
+<td style="text-align: left;">No Heart Disease</td>
 <td style="text-align: right;">0.2228824</td>
 <td style="text-align: right;">0.0718333</td>
 <td style="text-align: right;">0.1433816</td>

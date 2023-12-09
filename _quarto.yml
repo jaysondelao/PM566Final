@@ -6,9 +6,8 @@ website:
   title: "Proj"
   navbar:
     left:
-      - href: index.qmd
+      - href: about.qmd
         text: Home
-      - about.qmd
       - submitfin.qmd
 
 format:

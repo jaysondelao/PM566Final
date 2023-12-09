@@ -2,7 +2,7 @@
 title: "About"
 ---
 
-About this site
+Link to my report: [Download](https://github.com/jaysondelao/PM566Final/raw/main/docs/submitfin.pdf)
 
 ```{r echo = FALSE, include=FALSE}
 
